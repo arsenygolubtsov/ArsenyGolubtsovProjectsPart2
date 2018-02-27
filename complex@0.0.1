@@ -1,0 +1,101 @@
+#include <iostream>
+#include <sstream>
+using namespace std;
+
+struct complex_t {
+	float real;
+	float imag;
+
+    complex_t()
+    {
+		real = 0.0f;
+		imag = 0.0f;
+  	}
+
+complex_t add( complex_t other ) const
+{
+	complex_t complex;
+	complex.real = this->real + other.real;
+	complex.imag = this->imag + other.imag;
+	return complex;
+}
+
+complex_t sub( complex_t other ) const
+{
+	complex_t complex;
+	complex.real = this->real - other.real;
+	complex.imag = this->imag - other.imag;
+	return complex;
+}
+
+complex_t mul( complex_t other ) const
+{
+	complex_t complex;
+	complex.real = cm1.real * cm2.real - cm1.imag * cm2.imag;
+	complex.imag = cm1.imag * cm2.real + cm1.real * cm2.imag;
+	return complex;
+}
+
+complex_t div( complex_t other ) const
+{
+	complex_t complex;
+	complex.real = (cm1.real * cm2.real + cm1.imag * cm2.imag) / (cm2.real * cm2.real + cm2.imag * cm2.imag);
+	complex.imag = (cm1.imag * cm2.real - cm1.real * cm2.imag) / (cm2.real * cm2.real + cm2.imag * cm2.imag);
+	return complex;
+}
+
+std::istream & read( std::istream & stream )
+{
+	char symbol, symbol2, symbol3;
+	bool res = true;
+	if (stream >> symbol &&
+		symbol == '(' &&
+		stream >> complex.real &&
+		stream >> symbol2 &&
+		symbol2 == ',' &&
+		stream >> complex.imag &&
+		stream >> symbol3 &&
+		symbol3 == ')')
+	{
+		return stream;
+	}
+	else {
+		res = false; cout << "An error has occured while reading input data";
+	}
+}
+
+std::ostream & write( std::ostream & stream )
+   {
+	   stream << '(' << complex.real << ',' << complex.imag << ')' << endl;
+	   return stream;
+   }
+};
+
+int main()
+{
+	complex_t cm1, cm2, result;
+	string string;
+	getline(cin, string);
+	istringstream stream(string);
+	char znak;
+	if (read(stream, cm1) && stream >> znak && read(stream, cm2)) {
+		if (znak = '+')	{
+			result = add(cm1, cm2);
+		}
+		else if (znak = '-'){
+			result = sub(cm1, cm2);
+		}
+		else if (znak = '*') {
+			result = mul(cm1, cm2);
+		 }
+		else if (znak = '/') {
+			result = div(cm1, cm2);
+		 }
+		else {cerr << "Error";
+			 }
+		}
+		write(cout, result);
+	}
+
+
+
