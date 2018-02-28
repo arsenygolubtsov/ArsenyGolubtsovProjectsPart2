@@ -8,9 +8,9 @@ struct complex_t {
 
     complex_t()
     {
-		real = 0.0f;
-		imag = 0.0f;
-  	}
+	real = 0.0f;
+	imag = 0.0f;
+    }
 
 complex_t add( complex_t other ) const
 {
@@ -51,17 +51,17 @@ std::istream & read( std::istream & stream )
 	float imag;
 	bool res = true;
 	if (stream >> symbol &&
-		symbol == '(' &&
-		stream >> real &&
-		stream >> symbol &&
-		symbol == ',' &&
-		stream >> imag &&
-		stream >> symbol &&
-		symbol == ')')
+	symbol == '(' &&
+	stream >> real &&
+	stream >> symbol &&
+	symbol == ',' &&
+	stream >> imag &&
+	stream >> symbol &&
+	symbol == ')')
     	{
-	    this->real = real;
-		this->imag = imag;
-	    }
+        this->real = real;
+	this->imag = imag;
+	}
 	else {
 		res = false; cerr << "An error has occured while reading input data";
 	}
