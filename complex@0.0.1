@@ -3,10 +3,9 @@
 using namespace std;
 
 struct complex_t {
-       float real;
-       float imag;
-       complex_t() 
-       {
+	   float real;
+	   float imag;
+       complex_t() {
 	           real = 0.0f;
 	           imag = 0.0f;
        }
@@ -73,7 +72,7 @@ struct complex_t {
 int main()
 {
 	   complex_t cm1, cm2, result;
-       string string;
+	   string string;
        getline(cin, string);
 	   istringstream stream(string);
 	   char znak;
