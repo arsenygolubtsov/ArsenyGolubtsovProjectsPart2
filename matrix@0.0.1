@@ -1,3 +1,4 @@
+#include <iostream>
 #include <sstream>
 #include <cmath>
 #include <fstream>
@@ -15,45 +16,59 @@ public:
 		columns = 0;
 	} 
 
-matrix_t add(matrix_t & other) const {
-		if (this->rows==other.rows && this->columns==other.columns){
-			for(int i=0; i<this->rows; ++i){
-				for(int j= 0; j<this->columns; ++j){
-					other.data[i][j]=this->data[i][j]+other.data[i][j];
+matrix_t add(matrix_t const & other) const {
+        matrix_t result;
+		if (this->rows==other.rows && this->columns==other.columns) {
+		    result.rows=this->rows;
+			result.columns=this->columns;
+			result.data=new int *[this->rows];
+			for(int i=0; i<this->rows; ++i) {
+			    result.data[i]=new int[this->columns];
+			}
+			for(int i=0; i<this->rows; ++i) {
+				for(int j= 0; j<this->columns; ++j) {
+			    	result.data[i][j]=this->data[i][j]+other.data[i][j];
 				}
 			}
 		}
     else {
 			cerr << "Error";
 		}
-		return other;
+		return result;
 	}
 
-matrix_t sub(matrix_t & other) const {
-		if(this->rows==other.rows && this->columns==other.columns){
-			for(int i=0; i<this->rows; ++i){
-				for(int j=0; j<this->columns; ++j){
-					other.data[i][j]=this->data[i][j]-other.data[i][j];
+matrix_t sub(matrix_t const & other) const {
+    	matrix_t result;
+		if (this->rows==other.rows && this->columns==other.columns) {
+		    result.rows=this->rows;
+			result.columns=this->columns;
+			result.data=new int *[this->rows];
+			for(int i=0; i<this->rows; ++i) {
+			    result.data[i]=new int[this->columns];
+			}
+			for(int i=0; i<this->rows; ++i) {
+				for(int j= 0; j<this->columns; ++j) {
+			    	result.data[i][j]=this->data[i][j]-other.data[i][j];
 				}
 			}
 		}
     else {
 			cerr << "Error";
 		}
-		return other;
+		return result;
 	}
 
-matrix_t mul(matrix_t & other) const {
+matrix_t mul(matrix_t const & other) const {
 		matrix_t result;
-		if(this->columns==other.rows){
+		if(this->columns==other.rows) {
 			result.rows=this->rows;
 			result.columns=other.columns;
 			result.data=new int *[this->rows];
-			for(int i=0; i<this->rows; ++i){
+			for(int i=0; i<this->rows; ++i) {
 				result.data[i]=new int[other.columns];
 			}
-			for(int i=0; i<this->rows; ++i){
-				for(int j=0; j<other.columns; ++j){
+			for(int i=0; i<this->rows; ++i) {
+				for(int j=0; j<other.columns; ++j) {
 					int sum=0;
 					for(int k=0; k<other.rows; ++k) {
 						sum+=this->data[i][k]*other.data[k][j];
@@ -68,19 +83,20 @@ matrix_t mul(matrix_t & other) const {
 		return result;
 	}
 
-matrix_t trans(matrix_t & other) const {
-		other.rows=this->columns;
-		other.columns=this->rows;
-		other.data=new int *[other.rows];
-		for(int i=0; i<this->columns; ++i){
-			other.data[i]=new int [other.columns];
+matrix_t trans(matrix_t const & other) const {
+        matrix_t result;
+		result.rows=other.columns;
+		result.columns=other.rows;
+		result.data=new int *[other.rows];
+		for(int i=0; i<other.columns; ++i) {
+			result.data[i]=new int [other.columns];
 		}
-		for(int i=0; i<other.rows; ++i){
-			for(int j=0; j<other.columns; ++j){
-				other.data[i][j]=this->data[j][i];
+		for(int i=0; i<other.rows; ++i) {
+			for(int j=0; j<other.columns; ++j) {
+				result.data[i][j]=other.data[j][i];
 			}
 		}
-		return other;
+		return result;
 	}
 
 std::ifstream & read(std::ifstream & stream, std::string FileName) {
@@ -150,30 +166,30 @@ int main() {
 		   matrix3.write(stream3, fileName3);
         }
         else if (matrix1.rows == matrix1.columns && (op == '-' || op == '+' || op == '*')) {
-                        cin.get();
-                        if (readFileName(fileName2)) {
+                cin.get();
+                if (readFileName(fileName2)) {
                         matrix2.read(stream2, fileName2);
                         if (matrix1.rows == matrix2.rows && matrix1.columns == matrix2.columns) {
                         switch (op) {
                         case '+': {
-					matrix3 = matrix1.add(matrix2);
-					matrix3.write(stream3, fileName3);
-					break;
-				}
-				case '-': {
-					matrix3 = matrix1.sub(matrix2);
-				    matrix3.write(stream3, fileName3);
-					break;
-				}
-				case '*': {
-					matrix3 = matrix1.mul(matrix2);
-					matrix3.write(stream3, fileName3);
-					break;
-				}
-                        default:
-                        cerr << "An error has occured while reading input data";
-                    }
-                }
+					            matrix3 = matrix1.add(matrix2);
+					            matrix3.write(stream3, fileName3);
+					            break;
+				        }
+				        case '-': {
+					            matrix3 = matrix1.sub(matrix2);
+				                matrix3.write(stream3, fileName3);
+					            break;
+				       }
+				       case '*': {
+					           matrix3 = matrix1.mul(matrix2);
+					           matrix3.write(stream3, fileName3);
+					           break;
+				       }
+                       default:
+                              cerr << "An error has occured while reading input data";
+                       }
+                  }
             }
             else cerr << "An error has occured while reading input data";
         }
