@@ -98,6 +98,33 @@ matrix_t trans(matrix_t const & other) const {
 		}
 		return result;
 	}
+matrix_t( matrix_t const & matrix) {
+		this->rows = matrix.rows;
+		this->columns = matrix.columns;
+		this->data = new int *[this->rows];
+		for (unsigned int i = 0; i < this->rows; ++i) {
+			data[i] = new int[this->columns];
+			for (unsigned int j = 0; j < this->columns; ++j) {
+				this->data[i][j] = matrix.data[i][j];
+			}
+		}
+	}
+	
+matrix_t & operator=( matrix_t const & matrix) {
+		for (unsigned int i = 0; i < rows; ++i) {
+			delete[] this->data[i];
+		}
+		delete[] this->data;
+		this->rows = matrix.rows;
+		this->columns = matrix.columns;
+		this->data = new int * [rows];
+		for (unsigned int i = 0; i < this->rows; ++i) {
+			this->data[i] = new int[this->columns];
+			for (unsigned int j = 0; j < this->columns; ++j) {
+				this->data[i][j] = matrix.data[i][j];
+			}
+		}			
+	}
 
 std::ifstream & read(std::ifstream & stream, std::string FileName) {
     char op;
@@ -137,7 +164,14 @@ std::ofstream & write(std::ofstream & stream, std::string FileName) const {
         stream << endl;
     }
 }
-};
+
+~matrix_t(){ 
+	for (unsigned int i = 0; i < this->rows; i++) {
+		delete [] this->data[i];
+	}
+	delete []this->data;
+  }
+}; 
 
 bool readFileName(string &fileName) {
     bool result = true;
