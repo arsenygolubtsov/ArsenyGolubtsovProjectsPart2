@@ -38,7 +38,7 @@ public:
 	}
 	
 	void swap(scoped_ptr & other){
-		std::swap(ptr_, other.ptr_);
+	        std::swap(ptr_, other.ptr_);
 	}
 
     scoped_ptr & operator=(scoped_ptr const &) = delete;
